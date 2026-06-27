@@ -5,7 +5,7 @@ from core.logger import logger
 class BasePage:
     """Base class for all page objects . All pages inherit from this -
     gets retry, logging, timing for free"""
-    def __init__(self, page: Page):
+    def __init__(self, page):
         self.page = page
     @log_action
     @timer
@@ -30,3 +30,9 @@ class BasePage:
     def wait_for_url(self, url: str):
         """Waits until url is visible"""
         self.page.wait_for_url(url)
+
+    def click(self, locator: str):
+        self.page.click(locator)
+
+    def navigate(self, url: str):
+        self.page.goto(url)
