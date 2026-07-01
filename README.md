@@ -9,6 +9,9 @@ Core Utilities
 - Config Management (pydantic-settings)
 - Custom decorators (@retry @log_action @timer)
 - BasePage with Page Object pattern
+- HomePage and LoginPage
+- ProductPage and CartPage
+- Product and cart test suites
 
 ### Next Steps
 - Playwright page Objects
