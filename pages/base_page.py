@@ -1,6 +1,4 @@
-from playwright.sync_api import Playwright
 from core.decorators import retry, log_action, timer
-from core.logger import logger
 
 class BasePage:
     """Base class for all page objects . All pages inherit from this -

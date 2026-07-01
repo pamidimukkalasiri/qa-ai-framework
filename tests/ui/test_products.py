@@ -33,11 +33,6 @@ class TestProducts:
         matches = [n for n in names if search_term.lower() in n.lower()]
         assert len(matches) > 0, f"Results should contain keyword: {search_term}"
 
-        #     n for n in names
-        #     if keyword.lower() in n.lower()
-        # ]
-        # assert len(matches) > 0, \
-        #     f"Results should contain keyword: {keyword}"
 
     def test_add_product_to_cart(self, page):
         self.product.add_first_product_to_cart()

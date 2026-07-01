@@ -1,6 +1,4 @@
 import pytest
-from crewai.cli.cli import login
-
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from core.config import settings

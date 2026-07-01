@@ -7,7 +7,6 @@ class CartPage(BasePage):
     # Locators
     CART_ITEMS = "div.cart_info"
     PRODUCT_NAME = "td.cart_description"
-    # PRODUCT_NAME = "td.cart_description h4 a"
     DELETE_BUTTON = "a.cart_quantity_delete"
     EMPTY_CART_MESSAGE = "b:has-text('Cart is empty!')"
     CHECKOUT_BUTTON = "a:has-text('Proceed To Checkout')"
