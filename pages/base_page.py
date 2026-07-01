@@ -36,3 +36,7 @@ class BasePage:
 
     def navigate(self, url: str):
         self.page.goto(url)
+
+    def wait_for_url_contains(self, keyword: str, timeout: int = 5000):
+        """Waits until url contains keyword"""
+        self.page.wait_for_url(f"**/{keyword}**", timeout=timeout)

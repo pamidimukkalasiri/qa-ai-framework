@@ -12,7 +12,6 @@ class Settings(BaseSettings):
     # Test Credentials
     test_email: str = Field(avalidation_alias="test_email")
     test_password: str = Field(avalidation_alias="test_password")
-    test_password: str = ""
 
     # MODERN V2 SYNTAX ONLY (Safely ignores unmatched .env fields)
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
