@@ -4,6 +4,7 @@ from pages.cart_page import CartPage
 from pages.checkout_page import CheckoutPage
 from pages.product_page import ProductPage
 from pages.login_page import LoginPage
+from data.test_data import TestData
 
 @pytest.fixture(autouse=True)
 def checkout_flow(page):
@@ -44,12 +45,11 @@ class TestCheckout:
         """Full checkout flow - add details and pay"""
         checkout_flow.click_place_order()
         checkout_flow.fill_payment_details(
-            name="Test User",
-            card_number="4111111111111111",
-            cvc="123",
-            month= "12",
-            year= "2030"
+            name= str(TestData.card_name),
+            card_number= str(TestData.card_number),
+            cvc= str(TestData.card_cvc),
+            month= str(TestData.card_month),
+            year= str(TestData.card_year),
         )
         checkout_flow.click_pay()
-        checkout_flow.page.wait_for_timeout(2000)
         assert checkout_flow.is_order_successful(), "Order should be successful"

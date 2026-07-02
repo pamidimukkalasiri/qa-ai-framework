@@ -2,9 +2,7 @@ import pytest
 from playwright.sync_api import sync_playwright
 from core.config import settings
 from pages.login_page import LoginPage
-from pages.home_page import HomePage
 from pages.product_page import ProductPage
-from pages.cart_page import CartPage
 
 @pytest.fixture(scope='session')
 def browser():

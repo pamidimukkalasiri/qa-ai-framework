@@ -1,4 +1,6 @@
 import pytest
+
+from data.test_data import TestData
 from pages.base_page import BasePage
 from pages.cart_page import CartPage
 from pages.login_page import LoginPage
@@ -29,7 +31,7 @@ class TestCart:
 
     def test_product_name_in_cart(self, page):
         self.product.go_to_products()
-        self.product.search_product("T-Shirt")
+        self.product.search_product(TestData.search_product)
         self.product.add_first_product_to_cart()
         self.product.go_to_cart()
         names = self.cart.get_product_names_in_cart()
@@ -41,7 +43,7 @@ class TestCart:
         self.product.add_first_product_to_cart()
         self.product.go_to_cart()
         self.cart.remove_first_item()
-        page.wait_for_timeout(1000)
+        page.wait_for_timeout(settings.wait_timeout)
         assert self.cart.is_cart_empty(), \
             "Cart should not be empty"
 

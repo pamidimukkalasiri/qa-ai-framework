@@ -11,7 +11,17 @@ Core Utilities
 - BasePage with Page Object pattern
 - HomePage and LoginPage
 - ProductPage and CartPage
-- Product and cart test suites
+- checkout page
+- Full E2E test - login to order placement
+- Test data separation
+
+## Test Coverage
+| Page | Tests | Status |
+|------|-------|--------|
+| Login | 4 tests | ✅ |
+| Products | 4 tests | ✅ |
+| Cart | 4 tests | ✅ |
+| Checkout | 3 tests | ✅ |
 
 ### Next Steps
 - Playwright page Objects

@@ -44,5 +44,5 @@ class CheckoutPage(BasePage):
 
     def is_order_successful(self)->bool:
         success_locator = self.page.get_by_text("Congratulations! Your order has been confirmed!")
-        success_locator.wait_for(state="visible", timeout=3000)
+        success_locator.wait_for(state="visible", timeout=settings.wait_timeout)
         return success_locator.is_visible()

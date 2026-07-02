@@ -9,6 +9,10 @@ class Settings(BaseSettings):
     slow_mo: int = 0
     timeout: int = 30000
 
+    @property
+    def wait_timeout(self):
+        return self.timeout
+
     # Test Credentials
     test_email: str = Field(avalidation_alias="test_email")
     test_password: str = Field(avalidation_alias="test_password")

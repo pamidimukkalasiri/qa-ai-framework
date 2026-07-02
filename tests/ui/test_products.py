@@ -2,6 +2,7 @@ import pytest
 from pages.product_page import ProductPage
 from pages.home_page import HomePage
 from core.config import settings
+from data.test_data import TestData
 
 class TestProducts:
 
@@ -20,13 +21,13 @@ class TestProducts:
             "should be on products page"
 
     def test_search_existing_product(self, page):
-        self.product.search_product("T-Shirt")
+        self.product.search_product(TestData.search_product)
         names = self.product.get_all_product_names()
         assert len(names) > 0, \
             "Search should return at least one product."
 
     def test_search_result_matches_keyword(self):
-        search_term = "dress"
+        search_term = TestData.search_term
         self.product.search_product(search_term)
         names = self.product.get_all_product_names()
         print(f"\nDEBUG- collected names: {names}")
@@ -38,4 +39,4 @@ class TestProducts:
         self.product.add_first_product_to_cart()
         self.product.continue_shopping()
 
-        assert self.product.is_products_page(), "should be on products page"
+        assert self.product.is_products_page(), TestData.order_comment
