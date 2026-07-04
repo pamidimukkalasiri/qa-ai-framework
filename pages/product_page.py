@@ -16,7 +16,7 @@ class ProductPage(BasePage):
 
 
     def go_to_products(self):
-        self.navigate(f"{settings.base_url}/products")
+        self.navigate(f"{settings.base_url.rstrip('/')}/products")
 
     def search_product(self, product_name):
         logger.info(f"searching product {product_name}")

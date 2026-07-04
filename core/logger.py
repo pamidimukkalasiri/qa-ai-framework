@@ -1,6 +1,6 @@
 import logging
 import sys
-from cgitb import handler
+# from cgitb import handler
 
 
 def get_logger(name : str) -> logging.Logger:
