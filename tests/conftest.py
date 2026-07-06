@@ -5,20 +5,35 @@ from pages.login_page import LoginPage
 from pages.product_page import ProductPage
 
 @pytest.fixture(scope='session')
-def browser():
-    """Launch browser once for entire test session"""
+def browser_type_launch_args():
+    """Override browser launch page"""
+    return {
+        "headless":settings.headless,
+        "slow_mo":settings.slow_mo
+    }
+    # with sync_playwright() as p:
+    #     browser = getattr(p, settings.BROWSER).launch(
+    #         headless=settings.headless,
+    #         slow_mo=settings.slow_mo
+    #     )
+    #     yield browser
+    #     browser.close()
+
+@pytest.fixture(scope='session')
+def browser(browser_type_launch_args):
+    """Each parallel worker get its own browser instance"""
     with sync_playwright() as p:
-        browser = getattr(p, settings.BROWSER).launch(
-            headless=settings.headless,
-            slow_mo=settings.slow_mo
-        )
+        browser = getattr(p, settings.browser).launch(**browser_type_launch_args)
         yield browser
         browser.close()
 
 @pytest.fixture(scope='function')
 def page(browser):
     """Fresh page for every single test"""
-    context = browser.new_context()
+    context = browser.new_context(
+        #Each context is completely isolated
+        viewport={'width': 1280, 'height': 720},
+    )
     page = context.new_page()
     page.set_default_timeout(settings.timeout)
     yield page
@@ -41,3 +56,28 @@ def cart_ready_page(logged_in_page):
     product.go_to_products()
     product.add_first_product_to_cart()
     yield logged_in_page
+
+@pytest.fixture(scope='function')
+def page(browser):
+    """Each test gets fresh page with trace recording enabled."""
+    context = browser.new_context(viewport={'width': 1280, 'height': 720})
+    #Start Tracing
+    context.tracing.start(
+        screenshots=True,
+        snapshots = True,
+        sources = True
+    )
+    page = context.new_page()
+    page.set_default_timeout(settings.timeout)
+    yield page
+
+    # Stop tracing _ save is test failed
+    context.tracing.stop(
+        path="reports\\trace.zip"
+    )
+    context.close()
+
+# def pytest_configure(config):
+#     """Create reports folder if not exists"""
+#     import os
+#     os.mkdir("reports", exist_ok=True)

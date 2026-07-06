@@ -4,10 +4,10 @@ from pydantic import Field
 
 class Settings(BaseSettings):
     base_url: str = "https://automationexercise.com"
-    BROWSER: str = "chromium"
+    browser: str = "chromium"
     headless: bool = False
     slow_mo: int = 0
-    timeout: int = 30000
+    timeout: int = 60000
 
     @property
     def wait_timeout(self):
