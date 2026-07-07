@@ -2,7 +2,11 @@
 > Python + Playwright + Crew AI - Under active development
 
 ## Current Status
-Core Utilities
+Complete - Core + Playwright Layer
+Complete - Advanced Playwright Features 
+
+## Tech Stack
+Python . Playwright . pytest . allure . pytest- xdist. Crew AI(In progress)
 
 ### Built so far
 - Centralised logger
@@ -17,6 +21,9 @@ Core Utilities
 - Network interception - block, monitor, track
 - Parallel execution - 4 workers
 - Trace viewer for debugging
+- Allure reports - steps, screenshots, dashboard
+- BaseTest - centralized severity and story
+- Auto screenshot on failure
 
 ## Test Coverage
 | Page       | Tests   | Status |
@@ -29,22 +36,53 @@ Core Utilities
 | **Total**  | **20**  | ✅     |
 
 ## How to Run
+### Setup
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-### Normal Run — Single Worker
+# Install browsers
+playwright install chromium
+
+# Setup environment
+cp .env.example .env
+# Add your test credentials to .env
+```
+
+# Run Tests
+## Run single test file
 python -m pytest tests\ui\test_login.py -v
 
-### Run all UI tests
+## Run all UI tests
 python -m pytest tests\ui\ -v
 
-### Parallel run - 4 workers
+## Run in parallel — 2 workers
 python -m pytest tests\ui\ -n 4 -v
 
-### Run specific Test file
-python -m pytest tests\ui\test_cart.py -v
+## Run specific test
+python -m pytest tests\ui\test_login.py::TestLogin::test_valid_login -v
 
-### View Trace on Failure
-playwright show-trace reports\trace.zip
+# Allure Reports
+## Run tests and save allure results
+python -m pytest tests\ui\ --alluredir=reports\allure-results -v
 
+## Open live report in browser
+allure serve reports\allure-results
+
+## Generate static HTML report
+allure generate reports\allure-results --clean -o reports\allure-html
+
+## Open static HTML report
+allure open reports\allure-html
+
+# Run Parallel + Allure together
+python -m pytest tests\ui\ -n 2 --alluredir=reports\allure-results -v
+
+# Trace Viewer
+## View trace for failed test
+playwright show-trace reports\traces\test_name.zip
+## Or drag zip file to online viewer
+## https://trace.playwright.dev
 
 ### Next Steps
 - Playwright page Objects
