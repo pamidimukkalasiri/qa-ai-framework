@@ -3,8 +3,13 @@ from pages.product_page import ProductPage
 from pages.home_page import HomePage
 from core.config import settings
 from data.test_data import TestData
+import allure
+from allure_commons.types import Severity
 
+@allure.feature("Products")
 class TestProducts:
+
+    Severity = Severity.NORMAL
 
     @pytest.fixture(autouse=True)
     def setup_product_page(self, page):

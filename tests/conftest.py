@@ -1,9 +1,37 @@
 import pytest
+import os
+import allure
 from playwright.sync_api import sync_playwright
 from core.config import settings
 from pages.login_page import LoginPage
 from pages.product_page import ProductPage
 
+
+#------ Folder Setup---------------------------
+def pytest_configure(config):
+    """Create required folders on startup"""
+    os.makedirs("reports/allure-results", exist_ok=True)
+    os.makedirs("reports/traces", exist_ok=True)
+
+#--------Auto Feature by Filename--------------------------
+def pytest_collection_modifyitems(items):
+    """Automatically assign allure feature based on test file name.
+    No need to add @allure.feature in every file"""
+    feature_map = {
+        "login" : "Authentication",
+        "product" : "Products",
+        "cart" : "Shopping Cart",
+        "checkout" : "Checkout",
+        "network" : "Network Interception",
+        }
+    for item in items:
+        file_name = item.fspath.basename.lower()
+        for keyword, feature in feature_map.items():
+            if keyword in file_name:
+                item.add_marker(allure.feature(feature))
+                break
+
+#-------Browser Fixture------------------
 @pytest.fixture(scope='session')
 def browser_type_launch_args():
     """Override browser launch page"""
@@ -11,13 +39,6 @@ def browser_type_launch_args():
         "headless":settings.headless,
         "slow_mo":settings.slow_mo
     }
-    # with sync_playwright() as p:
-    #     browser = getattr(p, settings.BROWSER).launch(
-    #         headless=settings.headless,
-    #         slow_mo=settings.slow_mo
-    #     )
-    #     yield browser
-    #     browser.close()
 
 @pytest.fixture(scope='session')
 def browser(browser_type_launch_args):
@@ -27,6 +48,7 @@ def browser(browser_type_launch_args):
         yield browser
         browser.close()
 
+#-------- Page fixture--------------------
 @pytest.fixture(scope='function')
 def page(browser):
     """Fresh page for every single test"""
@@ -77,7 +99,27 @@ def page(browser):
     )
     context.close()
 
-# def pytest_configure(config):
-#     """Create reports folder if not exists"""
-#     import os
-#     os.mkdir("reports", exist_ok=True)
+#---------Screenshot on Failure-----------------------------
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Automatically takes screenshot when any test fails and attaches to Allure report"""
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when == "call" and report.failed:
+        #Try all possible page fixture
+        page = (
+            item.funcargs.get("page") or
+            item.funcargs.get("logged_in_page") or
+            item.funcargs.get("cart_ready_page")
+        )
+
+        if page:
+            # Full page Screenshot
+            screenshot = page.screenshot(full_page=True)
+            # Attach to Allure report
+            allure.attach(
+                screenshot,
+                name= "failure_screenshot",
+                attachment_type=allure.attachment_type.PNG
+            )

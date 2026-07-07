@@ -2,9 +2,13 @@ import pytest
 from pages.login_page import LoginPage
 from pages.home_page import HomePage
 from core.config import settings
+import allure
+from allure_commons.types import Severity
 
+@allure.feature("Authentication")
 class TestLogin:
 
+    severity = Severity.CRITICAL
     @pytest.fixture(autouse=True)
     def setup_login_page(self, page):
         """Automatically navigates to login page"""

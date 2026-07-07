@@ -1,5 +1,6 @@
 import pytest
-
+import allure
+from allure_commons.types import Severity
 from data.test_data import TestData
 from pages.base_page import BasePage
 from pages.cart_page import CartPage
@@ -8,8 +9,10 @@ from pages.home_page import HomePage
 from core.config import settings
 from pages.product_page import ProductPage
 
-
+@allure.feature("Shopping Cart")
 class TestCart:
+
+    severity = Severity.CRITICAL
 
     @pytest.fixture(autouse=True)
     def setup_cart_page(self, page):

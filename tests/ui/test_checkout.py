@@ -1,3 +1,5 @@
+import allure
+from allure_commons.types import Severity
 import pytest
 from core.config import settings
 from pages.cart_page import CartPage
@@ -24,8 +26,9 @@ def checkout_flow(page):
     cart.proceed_to_checkout()
     return checkout
 
-
+@allure.feature("checkout")
 class TestCheckout:
+    severity = Severity.CRITICAL
     def test_checkout_page_loads(self, checkout_flow):
         """Checkout page should show delivery addresses
         Uses cart_ready_page fixture
