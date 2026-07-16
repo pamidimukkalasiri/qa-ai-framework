@@ -1,0 +1,15 @@
+Feature: User Login
+
+User Story:
+As a registered user
+I want to login with email and password
+So that I can access my account
+
+Accepatance Criteria:
+- Valid credentials should login successfully
+- Wrong password should show error message
+- Empty email should show validation error
+- Empty password should show validation error
+- Successful login redirects to home page
+- Username visible after login
+- User can logout successfully
