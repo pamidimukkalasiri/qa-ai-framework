@@ -1,0 +1,182 @@
+{
+  "feature": "User Login",
+  "total_count": 15,
+  "test_cases": [
+    {
+      "id": "TC001",
+      "title": "Valid Credentials Login Successfully",
+      "type": "positive",
+      "priority": "high",
+      "steps": [
+        "Step 1: Enter valid email and password",
+        "Step 2: Click on login button",
+        "Step 3: Verify successful login"
+      ],
+      "expected_result": "User should be redirected to home page"
+    },
+    {
+      "id": "TC002",
+      "title": "Wrong Password Shows Error Message",
+      "type": "negative",
+      "priority": "high",
+      "steps": [
+        "Step 1: Enter valid email and wrong password",
+        "Step 2: Click on login button",
+        "Step 3: Verify error message"
+      ],
+      "expected_result": "Error message should be displayed"
+    },
+    {
+      "id": "TC003",
+      "title": "Empty Email Shows Validation Error",
+      "type": "negative",
+      "priority": "high",
+      "steps": [
+        "Step 1: Enter empty email and valid password",
+        "Step 2: Click on login button",
+        "Step 3: Verify validation error"
+      ],
+      "expected_result": "Validation error should be displayed"
+    },
+    {
+      "id": "TC004",
+      "title": "Empty Password Shows Validation Error",
+      "type": "negative",
+      "priority": "high",
+      "steps": [
+        "Step 1: Enter valid email and empty password",
+        "Step 2: Click on login button",
+        "Step 3: Verify validation error"
+      ],
+      "expected_result": "Validation error should be displayed"
+    },
+    {
+      "id": "TC005",
+      "title": "Successful Login Redirects to Home Page",
+      "type": "positive",
+      "priority": "high",
+      "steps": [
+        "Step 1: Enter valid email and password",
+        "Step 2: Click on login button",
+        "Step 3: Verify home page"
+      ],
+      "expected_result": "User should be redirected to home page"
+    },
+    {
+      "id": "TC006",
+      "title": "Username Visible After Login",
+      "type": "positive",
+      "priority": "high",
+      "steps": [
+        "Step 1: Enter valid email and password",
+        "Step 2: Click on login button",
+        "Step 3: Verify username"
+      ],
+      "expected_result": "Username should be visible"
+    },
+    {
+      "id": "TC007",
+      "title": "User Can Logout Successfully",
+      "type": "positive",
+      "priority": "high",
+      "steps": [
+        "Step 1: Enter valid email and password",
+        "Step 2: Click on login button",
+        "Step 3: Click on logout button",
+        "Step 4: Verify logout"
+      ],
+      "expected_result": "User should be logged out"
+    },
+    {
+      "id": "TC008",
+      "title": "Edge Case - Empty Email and Password",
+      "type": "edge",
+      "priority": "medium",
+      "steps": [
+        "Step 1: Enter empty email and password",
+        "Step 2: Click on login button",
+        "Step 3: Verify validation error"
+      ],
+      "expected_result": "Validation error should be displayed"
+    },
+    {
+      "id": "TC009",
+      "title": "Edge Case - Email with Special Characters",
+      "type": "edge",
+      "priority": "medium",
+      "steps": [
+        "Step 1: Enter email with special characters and valid password",
+        "Step 2: Click on login button",
+        "Step 3: Verify error message"
+      ],
+      "expected_result": "Error message should be displayed"
+    },
+    {
+      "id": "TC010",
+      "title": "Edge Case - Password with Special Characters",
+      "type": "edge",
+      "priority": "medium",
+      "steps": [
+        "Step 1: Enter valid email and password with special characters",
+        "Step 2: Click on login button",
+        "Step 3: Verify error message"
+      ],
+      "expected_result": "Error message should be displayed"
+    },
+    {
+      "id": "TC011",
+      "title": "Security - Brute Force Attack",
+      "type": "security",
+      "priority": "low",
+      "steps": [
+        "Step 1: Attempt to login with multiple invalid passwords",
+        "Step 2: Verify rate limiting"
+      ],
+      "expected_result": "Rate limiting should be applied"
+    },
+    {
+      "id": "TC012",
+      "title": "Security - Password Strength Check",
+      "type": "security",
+      "priority": "low",
+      "steps": [
+        "Step 1: Enter weak password",
+        "Step 2: Verify password strength check"
+      ],
+      "expected_result": "Password strength check should be displayed"
+    },
+    {
+      "id": "TC013",
+      "title": "Security - Session Management",
+      "type": "security",
+      "priority": "low",
+      "steps": [
+        "Step 1: Login with valid credentials",
+        "Step 2: Verify session management"
+      ],
+      "expected_result": "Session should be managed correctly"
+    },
+    {
+      "id": "TC014",
+      "title": "Security - Cross-Site Scripting (XSS)",
+      "type": "security",
+      "priority": "low",
+      "steps": [
+        "Step 1: Attempt to inject malicious script",
+        "Step 2: Verify XSS protection"
+      ],
+      "expected_result": "XSS protection should be applied"
+    },
+    {
+      "id": "TC015",
+      "title": "Security - Cross-Site Request Forgery (CSRF)",
+      "type": "security",
+      "priority": "low",
+      "steps": [
+        "Step 1: Attempt to perform CSRF attack",
+        "Step 2: Verify CSRF protection"
+      ],
+      "expected_result": "CSRF protection should be applied"
+    }
+  ]
+}

@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     test_password: str = Field(validation_alias="test_password")
 
     # Free Gemini API
-    google_api_key: str = ""
+    groq_api_key: str = ""
 
     # MODERN V2 SYNTAX ONLY (Safely ignores unmatched .env fields)
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")

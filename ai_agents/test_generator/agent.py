@@ -1,7 +1,6 @@
 import json
 from pathlib import Path
-from google import genai
-from google.genai import types, client
+from groq import Groq
 from core.config import settings
 from core.logger import logger
 
@@ -50,12 +49,9 @@ class TestGeneratorAgent:
     """
 
     def __init__(self):
-        # New google-genai client
-        self.client = genai.Client(
-            api_key=settings.google_api_key
-        )
-        self.model = "models/gemini-2.0-flash"
-        logger.info("Gemini client ready")
+        self.client = Groq(api_key=settings.groq_api_key)
+        self.model = "llama-3.1-8b-instant"
+        logger.info("Groq client ready")
 
     def generate_from_text(
         self, user_story: str
@@ -107,15 +103,25 @@ class TestGeneratorAgent:
             )
             logger.info("Calling Gemini API...")
 
-            response = self.client.models.generate_content(
+            response = self.client.chat.completions.create(
                 model=self.model,
-                contents=prompt
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "Return only valid JSON"
+                    },
+                    {
+                        "role": "user",
+                        "content": prompt
+                    }
+                ],
+                temperature=0.3,
+                max_tokens=4096
             )
+            result = response.choices[0].message.content
 
             logger.info("Response received!")
-            return self._parse_result(
-                response.text
-            )
+            return self._parse_result(result)
 
         except Exception as e:
             logger.error(f"API call failed: {e}")
