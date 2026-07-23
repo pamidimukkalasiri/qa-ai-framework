@@ -30,10 +30,18 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+      # Install system dependencies
+      - name: Install Playwright system deps
+        run: Playwright install-deps chromium
       # Step 5 - Install Playwright browsers
       - name: Install Playwright browsers
         run: playwright install chromium
-      # Step 6 - Run Tests
+      # Step 6 - Create folders before tests run
+      - name: Create report folders
+        run: |
+          mkdir -p allure-results
+          mkdir -p reports/traces
+      # Step 7 - Run Tests
       - name: Run UI tests
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
@@ -47,7 +55,7 @@ jobs:
             --tb=short \
             -n 2
         continue-on-error: true
-      # Step 7 -  Upload Allure results
+      # Step 8 -  Upload Allure results
       - name: Upload Allure results
         uses: actions/upload-artifact@v4
         if: always()
@@ -55,7 +63,7 @@ jobs:
           name: allure-results
           path: allure-results/
           retention-days: 30
-      # Step 8 - Upload test reports
+      # Step 9 - Upload test reports
       - name: Upload trace files
         uses: actions/upload-artifact@v4
         if: always()
