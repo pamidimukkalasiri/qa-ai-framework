@@ -5,70 +5,82 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1 - Get your code
+
+      # Step 1 - Checkout code
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
+
       # Step 2 - Setup Python
       - name: Setup Python 3.11
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.11'
-      # Step 3 - Cache dependencies
-      # Speeds up pipeline significantly
-      - name: Cache pip packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-      # Step 4 - Install dependencies
+          python-version: "3.11"
+          cache: "pip"
+
+      # Step 3 - Install dependencies
       - name: Install dependencies
         run: |
           python --version
           pip --version
           python -m pip install --upgrade pip
           pip install -r requirements.txt -v
-      # Install system dependencies
-      - name: Install Playwright system deps
-        run: python -m playwright install-deps chromium
+          pip check
+
+      # Step 4 - Install Playwright dependencies
+      - name: Install Playwright system dependencies
+        run: |
+          python -m playwright install-deps chromium
+
       # Step 5 - Install Playwright browsers
-      - name: Install Playwright browsers
-        run: playwright install chromium
-      # Step 6 - Create folders before tests run
+      - name: Install Playwright Chromium browser
+        run: |
+          python -m playwright install chromium
+
+      # Step 6 - Create report folders
       - name: Create report folders
         run: |
           mkdir -p allure-results
           mkdir -p reports/traces
-      # Step 7 - Run Tests
+
+      # Step 7 - Run UI Tests
       - name: Run UI tests
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           TEST_EMAIL: ${{ secrets.TEST_EMAIL }}
           TEST_PASSWORD: ${{ secrets.TEST_PASSWORD }}
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+
         run: |
           python -m pytest tests/ui/ \
             --alluredir=allure-results \
             -v \
             --tb=short \
             -n 2
+
         continue-on-error: true
-      # Step 8 -  Upload Allure results
+
+      # Step 8 - Upload Allure Results
       - name: Upload Allure results
-        uses: actions/upload-artifact@v4
         if: always()
+        uses: actions/upload-artifact@v5
         with:
           name: allure-results
           path: allure-results/
           retention-days: 30
-      # Step 9 - Upload test reports
-      - name: Upload trace files
-        uses: actions/upload-artifact@v4
+
+      # Step 9 - Upload Playwright traces
+      - name: Upload Playwright traces
         if: always()
+        uses: actions/upload-artifact@v5
         with:
           name: playwright-traces
           path: reports/traces/
