@@ -4,16 +4,8 @@ from playwright.sync_api import sync_playwright
 SITE = "https://automationexercise.com"
 
 with sync_playwright() as p:
-    browser = p.chromium.launch(headless=False)
+    browser = p.chromium.launch(headless=True)
     page = browser.new_page()
-
-    # def on_request(req):
-    #     if SITE in req.url and "api" in req.url:
-    #         print(f"REQUEST: {req.method} -> {req.url}")
-    #
-    # def on_response(res):
-    #     if SITE in res.url and "api" in res.url:
-    #         print(f"RESPONSE: {res.status} -> {res.url}")
     def on_request(req):
         # CHANGED: Monitoring image files (.png or .jpg) instead of "api"
         if SITE in req.url and (".png" in req.url or ".jpg" in req.url):
