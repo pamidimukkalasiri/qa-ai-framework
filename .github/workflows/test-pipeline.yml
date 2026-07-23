@@ -57,7 +57,7 @@ jobs:
           retention-days: 30
       # Step 8 - Upload test reports
       - name: Upload trace files
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: playwright-traces
